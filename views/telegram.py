@@ -1,6 +1,6 @@
 from main import bot
-
-WELCOME_MESSAGE = 'Hello, world!'
+from views.boards import main_board
+WELCOME_MESSAGE = 'Привет, я бот, можешь получить wireguard конфиг.'
 
 
 class TelegramView:
@@ -8,16 +8,16 @@ class TelegramView:
         self._tgbot = tgbot
 
     def send_welcome(self, chat_id):
-        self._tgbot.send_message(chat_id, WELCOME_MESSAGE)
+        self._tgbot.send_message(chat_id, WELCOME_MESSAGE, reply_markup=main_board)
 
     def send_message(self, chat_id, text) -> None:
-        self._tgbot.send_message(chat_id, text)
+        self._tgbot.send_message(chat_id, text, reply_markup=main_board)
 
     def send_config_text(self, chat_id, text) -> None:
-        self._tgbot.send_message(chat_id, text)
+        self._tgbot.send_message(chat_id, f'Ваш конфиг: {text}', reply_markup=main_board)
 
     def send_statistics(self, chat_id, statistics) -> None:
-        self._tgbot.send_message(chat_id, statistics)
+        self._tgbot.send_message(chat_id, f'Ваша статистика: {statistics}', reply_markup=main_board)
 
 
 telegram = TelegramView(bot)

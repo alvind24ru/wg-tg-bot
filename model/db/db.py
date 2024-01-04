@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import User, Base
+from model.db.database_setup import User, Base
 
 # Сообщаем с какой БД хотим взаимодействовать
 engine = create_engine('sqlite:///wireguard.db')

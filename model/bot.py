@@ -31,8 +31,8 @@ class Bot:
     def get_all_statistics(self) -> list:
         ...
 
-    def get_statistics(self, user_id: int) -> dict:
-        ...
+    def get_statistics(self, user_id: int) -> str:
+        return 'Статистика будет позже)'
 
     def get_all_configs(self) -> list:
         ...
@@ -52,4 +52,4 @@ class Bot:
             return False
 
 
-bot = Bot()
+models_tg_bot = Bot()
