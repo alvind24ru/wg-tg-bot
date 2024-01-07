@@ -15,7 +15,7 @@ class Bot:
 
     def create_config(self, user_id: int, full_name: str, username: str, chat_id: int) -> None:
         ip_address = self.get_free_ip_address()
-        self._database.create_new_user(user_id, full_name, username, chat_id, f'{username}.conf', False, ip_address)
+        self._database.create_new_user(user_id, full_name, username, chat_id, False, ip_address)
         self._wg.add_peer(username, ip_address)
 
     def get_free_ip_address(self) -> str:
@@ -38,7 +38,7 @@ class Bot:
         ...
 
     def get_config_text(self, user_id: int) -> str:
-        filename = self._database.get_config_filename(user_id)
+        filename = self._database.get_username(user_id)
         return self._wg.get_config_text(filename)
 
     def delete_client(self, user_id: int) -> None:

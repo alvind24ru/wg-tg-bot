@@ -1,0 +1,13 @@
+version: '3'
+services:
+  tgwgbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    network_mode: host
+    ports:
+      - 51822:51822/udp
+    privileged: true
+    cap_add:
+      - NET_ADMIN   # Добавьте эту строку
+    restart: always

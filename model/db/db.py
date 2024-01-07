@@ -23,10 +23,10 @@ class Database:
     def __init__(self, _session):
         self._session = _session
 
-    def create_new_user(self, user_id: int, full_name: str, username: str, chat_id: int, config_filename: str,
-                        is_admin: bool = False, ip_address: str = None) -> None:
+    def create_new_user(self, user_id: int, full_name: str, username: str, chat_id: int, is_admin: bool = False,
+                        ip_address: str = None) -> None:
         new_user = User(id=user_id, full_name=full_name, username=username, chat_id=chat_id, is_admin=is_admin,
-                        config_filename=config_filename, ip_address=ip_address)
+                        ip_address=ip_address)
         self._session.add(new_user)
         self._session.commit()
 
@@ -38,9 +38,9 @@ class Database:
         all_users = self._session.query(User).all()
         return all_users
 
-    def get_config_filename(self, user_id: int) -> str:
+    def get_username(self, user_id: int) -> str:
         user = self._session.query(User).filter_by(id=user_id).first()
-        return user.config_filename
+        return user.username
 
     def get_all_config(self): ...
 

@@ -11,7 +11,6 @@ class User(Base):
     username = Column(String(255))
     chat_id = Column(Integer, nullable=False)
     is_admin = Column(Boolean, default=False)
-    config_filename = Column(String(255))
     ip_address = Column(String(255))
 
 
