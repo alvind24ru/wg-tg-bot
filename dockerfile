@@ -12,7 +12,7 @@ ENV LANG C.UTF-8
 # Установка зависимостей
 RUN apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y wireguard iproute2 zip unzip qrencode python3 python3-pip\
+    && apt-get install -y wireguard iproute2 iptables zip unzip qrencode python3 python3-pip\
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf \
