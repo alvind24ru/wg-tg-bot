@@ -7,20 +7,20 @@ wg genkey | tee /etc/wireguard/configs/"$NAME"/"${NAME}"_privatekey | wg pubkey 
 
 PRIVATE=$(cat /etc/wireguard/configs/"$NAME"/"${NAME}"_privatekey)
 PUBLIC=$(cat /etc/wireguard/configs/"$NAME"/"${NAME}"_publickey)
+PUBLIC_SERVER=$(cat /etc/wireguard/publickey)
 echo "
-
 [Peer]
 PublicKey = $PUBLIC
-AllowedIPs = ${IP}/32" >> /etc/wireguard/wg0.conf
+AllowedIPs = $IP/32" >> /etc/wireguard/wg0.conf
 
 echo "
 [Interface]
 PrivateKey = $PRIVATE
-Address = ${IP}/32
+Address = $IP/32
 DNS = 8.8.8.8
 
 [Peer]
-PublicKey = /r0IPyXJLSgcxfsdyYFBZJlLmnOYBQ0OslqU6ucmbBM=
+PublicKey = $PUBLIC_SERVER
 Endpoint = 31.172.70.114:51822
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20" > /etc/wireguard/configs/"$NAME"/"$NAME".conf
