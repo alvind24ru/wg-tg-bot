@@ -42,14 +42,28 @@ class Database:
     def get_username(self, user_id: int) -> str:
         user = self._session.query(User).filter_by(id=user_id).first()
         return user.username
+    
+    def get_username_from_ip(self, ip: str) -> str:
+        user = self._session.query(User).filter_by(ip_address=ip).first()
+        return user.username
 
     def get_all_config(self): ...
 
-    def delete_user(self, user_id: int) -> None:
+    def delete_user_by_user_id(self, user_id: int) -> None:
         user = self._session.query(User).filter_by(id=user_id).first()
         self._session.delete(user)
         self._session.commit()
         self._session.close()
+
+    def delete_user_by_ip_address(self, ip: str) -> None:
+        user = self._session.query(User).filter_by(ip_address=ip).first()
+        self._session.delete(user)
+        self._session.commit()
+        self._session.close()
+
+    def get_user_by_ip_address(self, ip: str) -> User:
+        user = self._session.query(User).filter_by(ip_address=ip).first()
+        return user
 
     def get_user(self, user_id: int) -> User:
         user = self._session.query(User).filter_by(id=user_id).first()

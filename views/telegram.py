@@ -17,7 +17,9 @@ class TelegramView:
         self._tgbot.send_message(chat_id, text[0], reply_markup=main_board)
         self._tgbot.send_document(chat_id, text[1], reply_markup=main_board, caption='Ваш конфиг файл в документе:')
         self._tgbot.send_photo(chat_id, text[2], reply_markup=main_board)
-        # self._tgbot.send_message(chat_id, f'Ваш конфиг:\n{text}', reply_markup=main_board)
+
+    def send_file(self, chat_id, file) -> None:
+        self._tgbot.send_document(chat_id, file, reply_markup=main_board)
 
     def send_statistics(self, chat_id, statistics) -> None:
         self._tgbot.send_message(chat_id, f'Ваша статистика: {statistics}', reply_markup=main_board)

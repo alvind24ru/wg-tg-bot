@@ -12,18 +12,22 @@ ENV LANG C.UTF-8
 # Установка зависимостей
 RUN apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y wireguard wireguard-tools systemctl iproute2 iptables python3 python3-pip \
+    && apt-get install -y wireguard iproute2 zip unzip qrencode python3 python3-pip\
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf \
+    && pip install --no-cache-dir -r requirements.txt
 
-# RUN echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf \
+
 #     && ip link add dev wg0 type wireguard \
 #     && ip address add dev wg0 10.0.0.1/24 \
+#     && wg-quick up wg0 \
+#     && wg-quick down wg0 \
 #     && wg-quick up wg0
 #     #&& systemctl enable wg-quick@wg0 \
 #     #&& systemctl start wg-quick@wg0 \
 
-RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
 
 # Открытие порта 51820
 EXPOSE 51822

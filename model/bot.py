@@ -15,27 +15,26 @@ class Bot:
 
     def create_config(self, user_id: int, full_name: str, username: str, chat_id: int) -> None:
         ip_address = self.get_free_ip_address()
-        self._database.create_new_user(user_id, full_name, username, chat_id, False, ip_address)
+        _is_admin = False
+        #Первый пользователь админ
+        if len(self._database.get_all_ip_addresses()) == 0:
+            _is_admin = True
+        self._database.create_new_user(user_id, full_name, username, chat_id, _is_admin, ip_address)
         self._wg.add_peer(username, ip_address)
-        print(ip_address)
-        for _ in ip_address: print(_)
 
     def get_free_ip_address(self) -> str:
         all_addresses = self._database.get_all_ip_addresses()
-        print(all_addresses)
-        for address in all_addresses:
-            print(address)
+        if len(all_addresses) == 0: return '10.0.0.2'
         for i in range(2, 255):
-            if f'10.0.0.{i}' in all_addresses:
-                continue
-            return f'10.0.0.{i}'
+            if f'10.0.0.{i}' not in all_addresses[0]:
+                return f'10.0.0.{i}'
         raise Exception('Не найдено ни одного IP адреса')
 
     def get_all_clients(self) -> list:
         return self._database.get_all_users()
 
     def get_all_statistics(self) -> list:
-        ...
+        return self._wg.get_all_statistics()
 
     def get_statistics(self, user_id: int) -> str:
         return 'Статистика будет позже)'
@@ -55,8 +54,17 @@ class Bot:
 
     def get_config_qrcode(self, user_id: int): ...
 
-    def delete_client(self, user_id: int) -> None:
-        self._database.delete_user(user_id)
+    def delete_client(self, last_octet: int) -> None:
+        username = self._database.get_username_from_ip(f'10.0.0.{last_octet}')
+        self._database.delete_user_by_ip_address(f'10.0.0.{last_octet}')
+        self._wg.delete_peer(f'10.0.0.{last_octet}', username)
+
+    def get_userid_by_ip(self, ip_address: str):
+        user = self._database.get_user_by_ip_address(ip_address)
+        if user is not None:
+            return user.id
+        else:
+            return None
 
     def user_is_created(self, user_id: int) -> bool:
         user = self._database.get_user(user_id)
@@ -66,4 +74,11 @@ class Bot:
             return False
 
 
+    def start_wg_server(self) -> None:
+        self._wg.start_wg_server()
+
+    def get_backup_file(self) -> bytes:
+        self._wg.create_backup()
+        with open('/etc/wireguard/backup.zip', 'rb') as f:
+            return f.read()
 models_tg_bot = Bot()
