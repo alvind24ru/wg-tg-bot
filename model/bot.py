@@ -17,12 +17,18 @@ class Bot:
         ip_address = self.get_free_ip_address()
         self._database.create_new_user(user_id, full_name, username, chat_id, False, ip_address)
         self._wg.add_peer(username, ip_address)
+        print(ip_address)
+        for _ in ip_address: print(_)
 
     def get_free_ip_address(self) -> str:
         all_addresses = self._database.get_all_ip_addresses()
-        for i in range(255):
-            if f'10.0.0.{i}' not in all_addresses:
-                return f'10.0.0.{i}'
+        print(all_addresses)
+        for address in all_addresses:
+            print(address)
+        for i in range(2, 255):
+            if f'10.0.0.{i}' in all_addresses:
+                continue
+            return f'10.0.0.{i}'
         raise Exception('Не найдено ни одного IP адреса')
 
     def get_all_clients(self) -> list:
@@ -37,9 +43,17 @@ class Bot:
     def get_all_configs(self) -> list:
         ...
 
-    def get_config_text(self, user_id: int) -> str:
+    def get_config(self, user_id: int) -> list:
+        result = []
         filename = self._database.get_username(user_id)
-        return self._wg.get_config_text(filename)
+        result.append(self._wg.get_config_text(filename))
+        result.append(self._wg.get_config_file(filename))
+        result.append(self._wg.get_config_qrcode(filename))
+        return result
+
+    def get_config_file(self, user_id: int): ...
+
+    def get_config_qrcode(self, user_id: int): ...
 
     def delete_client(self, user_id: int) -> None:
         self._database.delete_user(user_id)

@@ -42,7 +42,7 @@ def create_new_client(message):
     if not models_tg_bot.user_is_created(message.from_user.id):
         models_tg_bot.create_config(message.from_user.id, message.from_user.full_name, message.from_user.username,
                                     message.chat.id)
-    config = models_tg_bot.get_config_text(message.from_user.id)
+    config = models_tg_bot.get_config(message.from_user.id)
     telegram.send_config_text(message.chat.id, config)
 
 

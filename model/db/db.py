@@ -29,6 +29,7 @@ class Database:
                         ip_address=ip_address)
         self._session.add(new_user)
         self._session.commit()
+        self._session.close()
 
     def get_all_ip_addresses(self) -> list:
         all_ip_addresses = self._session.query(User.ip_address).all()
@@ -48,6 +49,7 @@ class Database:
         user = self._session.query(User).filter_by(id=user_id).first()
         self._session.delete(user)
         self._session.commit()
+        self._session.close()
 
     def get_user(self, user_id: int) -> User:
         user = self._session.query(User).filter_by(id=user_id).first()

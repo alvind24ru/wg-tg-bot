@@ -4,18 +4,27 @@ import subprocess
 class WireGuard:
     def __init__(self): ...
 
-    def get_config_file(self, path): ...
 
     @staticmethod
     def get_config_text(username) -> str:
         # return 'config text'
-        with open(f'./etc/wireguard/configs/{username}/{username}.conf', 'r') as f:
+        with open(f'/etc/wireguard/configs/{username}/{username}.conf', 'r') as f:
+            return f.read()
+
+    @staticmethod
+    def get_config_file(username):
+        with open(f'/etc/wireguard/configs/{username}/{username}.conf', 'rb') as f:
+            return f.read()
+
+    @staticmethod
+    def get_config_qrcode(username):
+        with open(f'/etc/wireguard/configs/{username}/{username}-qr.png', 'rb') as f:
             return f.read()
 
     @staticmethod
     def add_peer(username: str, ip: str) -> None:
         # print('peer added')
-        subprocess.run((['bash', './sh_scripts/add_new_peer.sh', f'{username}', f'{ip}']), shell=True)
+        subprocess.run([f'bash ./model/sh_scripts/add_new_peer.sh {username} {ip}'], shell=True)
 
     @staticmethod
     def restart():
