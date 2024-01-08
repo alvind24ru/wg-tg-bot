@@ -48,12 +48,6 @@ def delete_user(message):
     else:
         telegram.send_message(message.chat.id, 'Клиент с данным ip не найден')
 
-@bot.message_handler(commands=['run'])
-def start_wg(message):
-    # models_tg_bot.user_is_admin_or_exception(message.from_user.id)
-    models_tg_bot.start_wg_server()
-
-
 @bot.message_handler(commands=['Статистика'])
 def get_statistic(message):
     telegram.send_statistic(message.chat.id, models_tg_bot.get_statistics(message.from_user.id))
@@ -89,6 +83,7 @@ def echo_message(message):
     telegram.send_message(message.chat.id, f'Не понимаю, chat_id = {message.chat.id}')
 
 try:
+    models_tg_bot.start_wg_server()
     bot.infinity_polling()
 except Exception as e:
     print(e)

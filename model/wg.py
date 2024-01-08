@@ -34,7 +34,7 @@ class WireGuard:
 
     @staticmethod
     def start_wg_server():
-        subprocess.run(['bash', './sh_scripts/start_server.sh'], shell=True)
+        subprocess.run(['bash /app/model/sh_scripts/start_server.sh'], shell=True)
 
     @staticmethod
     def create_backup():
