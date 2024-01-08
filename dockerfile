@@ -34,4 +34,5 @@ EXPOSE 51822
 
 # Команда по умолчанию для запуска вашего приложения
 # CMD ["tail", "-f", "/dev/null"]
+CMD ["bash", "/app/model/sh_scripts/start_server.sh"]
 CMD ["python3", "main.py"]
