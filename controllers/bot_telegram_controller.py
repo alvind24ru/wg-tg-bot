@@ -50,7 +50,7 @@ def delete_user(message):
 
 @bot.message_handler(commands=['run'])
 def start_wg(message):
-    models_tg_bot.user_is_admin_or_exception(message.from_user.id)
+    # models_tg_bot.user_is_admin_or_exception(message.from_user.id)
     models_tg_bot.start_wg_server()
 
 
