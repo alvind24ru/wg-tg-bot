@@ -8,9 +8,9 @@ services:
     ports:
       - 51822:51822/udp
     privileged: true
-    volumes:
-      - ~/wgtest/wireguard/ /etc/wireguard/
-      - ~/wgtest/app /app/
+#    volumes:
+#      - ~/wgtest/wireguard/ /etc/wireguard/
+#      - ~/wgtest/app /app/
     cap_add:
       - NET_ADMIN
     restart: always

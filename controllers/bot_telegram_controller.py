@@ -86,7 +86,11 @@ def backup(message):
 
 @bot.message_handler(content_types=['text'])
 def echo_message(message):
-    telegram.send_message(message.chat.id, 'Не понимаю')
+    telegram.send_message(message.chat.id, f'Не понимаю, chat_id = {message.chat.id}')
 
+try:
+    bot.infinity_polling()
+except Exception as e:
+    print(e)
 
-bot.infinity_polling()
+    # telegram.send_message(message.chat.id, str(e))
