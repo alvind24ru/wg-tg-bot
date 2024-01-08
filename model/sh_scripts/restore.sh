@@ -9,5 +9,5 @@ rm /app/wireguard.db
 cd /etc/wireguard || exit 1
 unzip -j "$BACKUP_FILE"
 mv ./wireguard.db /app/wireguard.db
-wg-quick down wg0
-wg-quick up wg0
+wg-quick down wg0 && wg-quick up wg0
+

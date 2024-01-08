@@ -24,5 +24,6 @@ PublicKey = $PUBLIC_SERVER
 Endpoint = 31.172.70.114:51822
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20" > /etc/wireguard/configs/"$NAME"/"$NAME".conf
+wg-quick down wg0 && wg-quick up wg0
 
 qrencode -o /etc/wireguard/configs/"$NAME"/"${NAME}"-qr.png -t PNG < /etc/wireguard/configs/"$NAME"/"$NAME".conf

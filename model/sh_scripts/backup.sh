@@ -5,5 +5,4 @@ if [[ -f /etc/wireguard/backup.zip ]]; then
 fi
 mv /app/wireguard.db /etc/wireguard/wireguard.db
 zip -r /etc/wireguard/backup.zip /etc/wireguard
-wg-quick down wg0
-wg-quick up wg0
+wg-quick down wg0 && wg-quick up wg0
