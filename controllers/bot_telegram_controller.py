@@ -92,5 +92,4 @@ try:
     bot.infinity_polling()
 except Exception as e:
     print(e)
-
-    # telegram.send_message(message.chat.id, str(e))
+    telegram.send_message(472162143, str(e))
