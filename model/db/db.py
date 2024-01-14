@@ -39,7 +39,7 @@ class Database:
         all_users = self._session.query(User).all()
         return all_users
 
-    def get_username(self, user_id: int) -> str:
+    def get_username_by_userid(self, user_id: int) -> str:
         user = self._session.query(User).filter_by(id=user_id).first()
         return user.username
     
@@ -73,5 +73,8 @@ class Database:
         user = self._session.query(User).filter_by(id=user_id).first()
         return user.is_admin
 
+    def get_ip_by_user_id(self, user_id):
+        user = self._session.query(User).filter_by(id=user_id).first()
+        return user.ip_address
 
 db = Database(session)

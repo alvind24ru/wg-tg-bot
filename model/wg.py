@@ -46,7 +46,7 @@ class WireGuard:
         return result.stdout.split('\n')
 
     @staticmethod
-    def get_statistics(ip: int) -> str:
-        return 'Статистика будет позже'
-        WireGuard.get_all_statistics()
+    def get_statistics(ip: int):
+        result = subprocess.run([f'wg | grep {ip}/32 -A 2'], shell=True, stdout=subprocess.PIPE, text=True)
+        return result.stdout.split('\n')
 wg = WireGuard()

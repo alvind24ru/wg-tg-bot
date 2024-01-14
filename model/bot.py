@@ -37,14 +37,16 @@ class Bot:
         return self._wg.get_all_statistics()
 
     def get_statistics(self, user_id: int) -> str:
-        return 'Статистика будет позже)'
+        ip = self._database.get_ip_by_user_id(user_id)
+        stat = self._wg.get_statistics(ip)
+        return stat
 
     def get_all_configs(self) -> list:
         ...
 
     def get_config(self, user_id: int) -> list:
         result = []
-        filename = self._database.get_username(user_id)
+        filename = self._database.get_username_by_userid(user_id)
         result.append(self._wg.get_config_text(filename))
         result.append(self._wg.get_config_file(filename))
         result.append(self._wg.get_config_qrcode(filename))

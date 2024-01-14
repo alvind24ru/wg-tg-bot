@@ -8,25 +8,10 @@ def send_welcome(message):
     telegram.send_welcome(message.chat.id)
 
 
-@bot.message_handler(commands=['Список клиентов'])
-def get_a_list_of_clients(message):
-    models_tg_bot.user_is_admin_or_exception(message.from_user.id)
-    list_of_clients = models_tg_bot.get_all_clients()
-    for client in list_of_clients:
-        telegram.send_message(message.chat.id, client)
-
-
 @bot.message_handler(regexp=r'^Статистика$')
 def get_statistics(message):
-    telegram.send_statistics(message.chat.id, models_tg_bot.get_statistics(message.from_user.id))
-
-
-@bot.message_handler(commands=['Получить все конфиги'])
-def get_all_configs(message):
-    models_tg_bot.user_is_admin_or_exception(message.from_user.id)
-    configs = models_tg_bot.get_all_configs()
-    for config in configs:
-        telegram.send_config_text(message.chat.id, config)
+    stat = models_tg_bot.get_statistics(message.from_user.id)
+    telegram.send_statistics(message.chat.id, stat)
 
 
 @bot.message_handler(content_types=['text'], regexp=r'^Получить конфиг$')
@@ -35,7 +20,7 @@ def create_new_client(message):
         models_tg_bot.create_config(message.from_user.id, message.from_user.full_name, message.from_user.username,
                                     message.chat.id)
     config = models_tg_bot.get_config(message.from_user.id)
-    telegram.send_config_text(message.chat.id, config)
+    telegram.send_config_text(message.chat.id, config, message.from_user.username)
 
 
 @bot.message_handler(commands=['del'])
@@ -48,12 +33,7 @@ def delete_user(message):
     else:
         telegram.send_message(message.chat.id, 'Клиент с данным ip не найден')
 
-@bot.message_handler(commands=['Статистика'])
-def get_statistic(message):
-    telegram.send_statistic(message.chat.id, models_tg_bot.get_statistics(message.from_user.id))
-
-
-@bot.message_handler(content_types=['text'], regexp=r'^Статистика всех клиентов$')
+@bot.message_handler(commands=['all-stats'])
 def get_all_statistics(message):
     models_tg_bot.user_is_admin_or_exception(message.from_user.id)
     statistics = models_tg_bot.get_all_statistics()
@@ -61,7 +41,7 @@ def get_all_statistics(message):
         telegram.send_statistics(message.chat.id, statistic)
 
 
-@bot.message_handler(content_types=['text'], regexp=r'^Назначить админом$')
+@bot.message_handler(commands=['set-admin'])
 def set_admin(message):
     if message.reply_to_message:
         models_tg_bot.user_is_admin_or_exception(message.from_user.id)
@@ -70,13 +50,20 @@ def set_admin(message):
     else:
         telegram.send_message(message.chat.id, 'Сообщение не является ответом или пересланным')
 
+@bot.message_handler(commands=['restore'])
+def restore(message):
+    pass
+
 @bot.message_handler(commands=['backup'])
 def backup(message):
     models_tg_bot.user_is_admin_or_exception(message.from_user.id)
     backup_file = models_tg_bot.get_backup_file()
     telegram.send_file(message.chat.id, backup_file)
 
-
+@bot.message_handler(commands=['admin'])
+def admin_list_commands(message):
+    models_tg_bot.user_is_admin_or_exception(message.from_user.id)
+    telegram.send_admin_list_commands(message.chat.id)
 
 @bot.message_handler(content_types=['text'])
 def echo_message(message):
@@ -87,4 +74,4 @@ try:
     bot.infinity_polling()
 except Exception as e:
     print(e)
-    telegram.send_message(472162143, str(e))
+    telegram.send_message(472162143, e)

@@ -8,9 +8,16 @@ services:
     ports:
       - 51822:51822/udp
     privileged: true
-#    volumes:
-#      - ~/wgtest/wireguard/ /etc/wireguard/
+    volumes:
+      - test:/app/
 #      - ~/wgtest/app /app/
     cap_add:
       - NET_ADMIN
     restart: always
+volumes:
+  test:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '~/proj/wg-tg-bot'
