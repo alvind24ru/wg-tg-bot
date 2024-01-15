@@ -23,10 +23,9 @@ class TelegramView:
 
     def send_statistics(self, chat_id, statistics) -> None:
         if len(statistics) > 2:
-            self._tgbot.send_message(chat_id, f'Ваша статистика:\n'
-                                              f'Ваш VPN адрес: {statistics[0][12:]}\n'
-                                              f'Последнее подключение: {statistics[1][17:]}\n'
-                                              f'Трафик: {statistics[2]}\n', reply_markup=main_board)
+            self._tgbot.send_message(chat_id, f'Ваш VPN адрес: {statistics[0][15:]}\n'
+                                              f'Последнее подключение: {statistics[1][20:]}\n'
+                                              f'Трафик: {statistics[2][12:21]} получено, {statistics[2][32:41]} отправлено\n', reply_markup=main_board)
         else: self._tgbot.send_message(chat_id, 'Статистика не собрана!', reply_markup=main_board)
     
     def send_admin_list_commands(self, chat_id):
