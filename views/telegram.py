@@ -23,11 +23,11 @@ class TelegramView:
 
     def send_statistics(self, chat_id, statistics) -> None:
         if len(statistics) > 2:
-            self._tgbot.send_message(chat_id, f'Ваша статистика:'
-                                              f'Ваш VPN адрес: {statistics[0]}'
-                                              f'Последнее подключение: {statistics[1]}'
-                                              f'Трафик: {statistics[2]}', reply_markup=main_board)
-        self._tgbot.send_message(chat_id, 'Статистика не собрана!', reply_markup=main_board)
+            self._tgbot.send_message(chat_id, f'Ваша статистика:\n'
+                                              f'Ваш VPN адрес: {statistics[0][12:]}\n'
+                                              f'Последнее подключение: {statistics[1][17:]}\n'
+                                              f'Трафик: {statistics[2]}\n', reply_markup=main_board)
+        else: self._tgbot.send_message(chat_id, 'Статистика не собрана!', reply_markup=main_board)
     
     def send_admin_list_commands(self, chat_id):
         self._tgbot.send_message(chat_id, '/admin Выводит все команды администратора\n'
@@ -35,6 +35,7 @@ class TelegramView:
                                           '/restore\n'
                                           '/set_admin\n'
                                           '/all_stats\n'
-                                          '/del\n')
+                                          '/del\n'
+                                          '/status\n')
 
 telegram = TelegramView(bot)

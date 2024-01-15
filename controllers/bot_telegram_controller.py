@@ -54,6 +54,10 @@ def set_admin(message):
 def restore(message):
     pass
 
+@bot.message_handler(commands=['status'])
+def server_status(message):
+    pass
+
 @bot.message_handler(commands=['backup'])
 def backup(message):
     models_tg_bot.user_is_admin_or_exception(message.from_user.id)
