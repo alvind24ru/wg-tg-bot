@@ -1,0 +1,7 @@
+./idea
+*.db
+makefile
+.vscode
+*/__pycache__/*
+.venv
+

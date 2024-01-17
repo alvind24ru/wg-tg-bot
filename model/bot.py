@@ -1,6 +1,9 @@
-from model.db.db import db
+from urllib import request
+
 from custom_exceptions import AdminException
-from model.wg import wg, WireGuard
+from main import bot as telebot
+from model.db.db import db
+from model.wg import WireGuard
 
 
 class Bot:
@@ -8,6 +11,7 @@ class Bot:
         self._database = db
         self._AdminException = AdminException
         self._wg = WireGuard
+        self._bot = telebot
 
     def user_is_admin_or_exception(self, user_id) -> None:
         if not self._database.user_is_admin(user_id):
@@ -16,15 +20,17 @@ class Bot:
     def create_config(self, user_id: int, full_name: str, username: str, chat_id: int) -> None:
         ip_address = self.get_free_ip_address()
         _is_admin = False
-        #Первый пользователь админ
+        # Первый пользователь админ
         if len(self._database.get_all_ip_addresses()) == 0:
             _is_admin = True
-        self._database.create_new_user(user_id, full_name, username, chat_id, _is_admin, ip_address)
+        self._database.create_new_user(
+            user_id, full_name, username, chat_id, _is_admin, ip_address)
         self._wg.add_peer(username, ip_address)
 
     def get_free_ip_address(self) -> str:
         all_addresses = self._database.get_all_ip_addresses()
-        if len(all_addresses) == 0: return '10.0.0.2'
+        if len(all_addresses) == 0:
+            return '10.0.0.2'
         for i in range(2, 255):
             if f'10.0.0.{i}' not in all_addresses[0]:
                 return f'10.0.0.{i}'
@@ -33,10 +39,10 @@ class Bot:
     def get_all_clients(self) -> list:
         return self._database.get_all_users()
 
-    def get_all_statistics(self) -> list:
+    def get_all_statistics(self) -> str:
         return self._wg.get_all_statistics()
 
-    def get_statistics(self, user_id: int) -> str:
+    def get_statistics(self, user_id: int) -> list:
         ip = self._database.get_ip_by_user_id(user_id)
         stat = self._wg.get_statistics(ip)
         return stat
@@ -57,7 +63,7 @@ class Bot:
     def get_config_qrcode(self, user_id: int): ...
 
     def delete_client(self, last_octet: int) -> None:
-        username = self._database.get_username_from_ip(f'10.0.0.{last_octet}')
+        username = self._database.get_username_by_ip(f'10.0.0.{last_octet}')
         self._database.delete_user_by_ip_address(f'10.0.0.{last_octet}')
         self._wg.delete_peer(f'10.0.0.{last_octet}', username)
 
@@ -75,7 +81,6 @@ class Bot:
         else:
             return False
 
-
     def start_wg_server(self) -> None:
         self._wg.start_wg_server()
 
@@ -83,4 +88,23 @@ class Bot:
         self._wg.create_backup()
         with open('/etc/wireguard/backup.zip', 'rb') as f:
             return f.read()
+
+    def get_all_users_from_db(self):
+        return self._database.get_all_users()
+
+    def restart_wg(self):
+        self._wg.restart()
+
+    def get_admin_chat_id(self) -> list:
+        return self._database.get_admin_chat_id()
+
+    def save_file(self, file_id, path):
+        fid = self._bot.get_file(file_id).file_id
+        url = self._bot.get_file_url(fid)
+        request.urlretrieve(url, path)
+
+    def restore(self, file_path):
+        self._wg.restore_config(file_path)
+
+
 models_tg_bot = Bot()

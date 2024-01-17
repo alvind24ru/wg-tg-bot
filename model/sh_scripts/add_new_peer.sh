@@ -5,6 +5,7 @@ mkdir /etc/wireguard/configs
 mkdir /etc/wireguard/configs/"$NAME"
 wg genkey | tee /etc/wireguard/configs/"$NAME"/"${NAME}"_privatekey | wg pubkey | tee /etc/wireguard/configs/"$NAME"/"${NAME}"_publickey
 
+EXTERNAL_IP=$(curl ifconfig.me)
 PRIVATE=$(cat /etc/wireguard/configs/"$NAME"/"${NAME}"_privatekey)
 PUBLIC=$(cat /etc/wireguard/configs/"$NAME"/"${NAME}"_publickey)
 PUBLIC_SERVER=$(cat /etc/wireguard/publickey)
@@ -21,7 +22,7 @@ DNS = 8.8.8.8
 
 [Peer]
 PublicKey = $PUBLIC_SERVER
-Endpoint = 31.172.70.114:51822
+Endpoint = $EXTERNAL_IP:$VPN_PORT
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20" > /etc/wireguard/configs/"$NAME"/"$NAME".conf
 wg-quick down wg0

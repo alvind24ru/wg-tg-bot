@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from model.db.database_setup import User, Base
 
 # Сообщаем с какой БД хотим взаимодействовать
@@ -20,61 +21,79 @@ session = DBSession()
 
 
 class Database:
-    def __init__(self, _session):
-        self._session = _session
+	def __init__(self, db_url: str):
+		self.db_url = db_url
+		engine = create_engine(db_url)
+		Base.metadata.bind = engine
+		DBSession = sessionmaker(bind=engine)
+		self._session = DBSession()
 
-    def create_new_user(self, user_id: int, full_name: str, username: str, chat_id: int, is_admin: bool = False,
-                        ip_address: str = None) -> None:
-        new_user = User(id=user_id, full_name=full_name, username=username, chat_id=chat_id, is_admin=is_admin,
-                        ip_address=ip_address)
-        self._session.add(new_user)
-        self._session.commit()
-        self._session.close()
+	def reload_session(self):
+		engine = create_engine(self.db_url)
+		Base.metadata.bind = engine
+		DBSession = sessionmaker(bind=engine)
+		self._session = DBSession()
 
-    def get_all_ip_addresses(self) -> list:
-        all_ip_addresses = self._session.query(User.ip_address).all()
-        return all_ip_addresses
+	def create_new_user(self, user_id: int, full_name: str, username: str, chat_id: int, is_admin: bool = False,
+	                    ip_address: str = '') -> None:
+		new_user = User(id=user_id, full_name=full_name, username=username, chat_id=chat_id, is_admin=is_admin,
+		                ip_address=ip_address)
+		self._session.add(new_user)
+		self._session.commit()
+		self._session.close()
 
-    def get_all_users(self):
-        all_users = self._session.query(User).all()
-        return all_users
+	def get_all_ip_addresses(self) -> list:
+		all_ip_addresses = self._session.query(User.ip_address).all()
+		return all_ip_addresses
 
-    def get_username_by_userid(self, user_id: int) -> str:
-        user = self._session.query(User).filter_by(id=user_id).first()
-        return user.username
-    
-    def get_username_from_ip(self, ip: str) -> str:
-        user = self._session.query(User).filter_by(ip_address=ip).first()
-        return user.username
+	def get_all_users(self):
+		all_users = self._session.query(User).all()
+		return all_users
 
-    def get_all_config(self): ...
+	def get_username_by_userid(self, user_id: int) -> str:
+		user = self._session.query(User).filter_by(id=user_id).first()
+		return user.username
 
-    def delete_user_by_user_id(self, user_id: int) -> None:
-        user = self._session.query(User).filter_by(id=user_id).first()
-        self._session.delete(user)
-        self._session.commit()
-        self._session.close()
+	def get_username_by_ip(self, ip: str) -> str:
+		user = self._session.query(User).filter_by(ip_address=ip).first()
+		return user.username
 
-    def delete_user_by_ip_address(self, ip: str) -> None:
-        user = self._session.query(User).filter_by(ip_address=ip).first()
-        self._session.delete(user)
-        self._session.commit()
-        self._session.close()
+	def delete_user_by_user_id(self, user_id: int) -> None:
+		user = self._session.query(User).filter_by(id=user_id).first()
+		self._session.delete(user)
+		self._session.commit()
+		self._session.close()
 
-    def get_user_by_ip_address(self, ip: str) -> User:
-        user = self._session.query(User).filter_by(ip_address=ip).first()
-        return user
+	def delete_user_by_ip_address(self, ip: str) -> None:
+		user = self._session.query(User).filter_by(ip_address=ip).first()
+		self._session.delete(user)
+		self._session.commit()
+		self._session.close()
 
-    def get_user(self, user_id: int) -> User:
-        user = self._session.query(User).filter_by(id=user_id).first()
-        return user
+	def get_user_by_ip_address(self, ip: str) -> User:
+		user = self._session.query(User).filter_by(ip_address=ip).first()
+		return user
 
-    def user_is_admin(self, user_id: int) -> bool:
-        user = self._session.query(User).filter_by(id=user_id).first()
-        return user.is_admin
+	def get_user(self, user_id: int) -> User:
+		user = self._session.query(User).filter_by(id=user_id).first()
+		return user
 
-    def get_ip_by_user_id(self, user_id):
-        user = self._session.query(User).filter_by(id=user_id).first()
-        return user.ip_address
+	def user_is_admin(self, user_id: int) -> bool:
+		user = self._session.query(User).filter_by(id=user_id).first()
+		return user.is_admin
 
-db = Database(session)
+	def get_ip_by_user_id(self, user_id):
+		user = self._session.query(User).filter_by(id=user_id).first()
+		return user.ip_address
+
+	def get_admin_chat_id(self) -> list:
+		result = []
+		users = self._session.query(User).filter_by(is_admin=True).all()
+		for user in users:
+			result.append(user.chat_id)
+		return result
+
+
+db = Database('sqlite:///wireguard.db')
+
+
