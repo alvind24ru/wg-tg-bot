@@ -4,6 +4,7 @@ services:
     environment:
       - VPN_PORT=${VPN_PORT}
       - DOMAIN=${DOMAIN}
+      - API_TOKEN=${API_TOKEN}
     build:
       context: .
       dockerfile: Dockerfile
