@@ -10,4 +10,5 @@ sudo apt-get update && apt-get install -y git docker && cd /root && git clone ht
 
 3. Запускаем docker контейнер:
 ```copy
-cd /root/wg-tg-bot && sudo docker-compose up -d```
+cd /root/wg-tg-bot && sudo docker-compose up -d
+```
