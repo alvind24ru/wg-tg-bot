@@ -1,1 +1,2 @@
-```git clone https://github.com/alvind24ru/wg-tg-bot.git ~```
+```copy
+git clone https://github.com/alvind24ru/wg-tg-bot.git ~```
