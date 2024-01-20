@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-COPY ./wireguard /etc/wireguard
+# COPY ./wireguard /etc/wireguard
 
 ENV DEBIAN_FRONTEND=noninteractive
 
