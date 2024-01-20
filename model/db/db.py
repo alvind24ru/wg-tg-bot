@@ -98,4 +98,4 @@ class Database:
         self._session.close()
 
 
-db = Database('sqlite:///wireguard.db')
+db = Database('sqlite:///database/wireguard.db')

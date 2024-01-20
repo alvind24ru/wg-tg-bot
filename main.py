@@ -1,8 +1,13 @@
 import telebot
-from config import API_TOKEN
+import os
+import sys
 from model.db import database_setup
 import controllers.bot_telegram_controller
-bot = telebot.TeleBot(API_TOKEN)
+API = os.environ.get('API_TOKEN', "None")
+if API is None:
+    print("В переменных окружения не обнаружен токен бота")
+    sys.exit(1)
+bot = telebot.TeleBot(API)
 
 
 print('Starting...')

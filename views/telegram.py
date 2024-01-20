@@ -6,7 +6,7 @@ from views.message import *
 from main import bot
 from views.boards import main_board, admin_board
 
-WELCOME_MESSAGE = 'Привет, я бот, можешь получить wireguard конфиг.'
+welcome_message = """Здесь ты можешь получить один или несколько Wireguard конфиг-файлов."""
 
 
 class TelegramView:
@@ -14,7 +14,7 @@ class TelegramView:
 		self._tgbot = tgbot
 
 	def send_welcome(self, chat_id):
-		self._tgbot.send_message(chat_id, WELCOME_MESSAGE, reply_markup=main_board)
+		self._tgbot.send_message(chat_id, welcome_message, reply_markup=main_board)
 
 	def send_message(self, chat_id, text) -> None:
 		self._tgbot.send_message(chat_id, text, reply_markup=main_board)
@@ -22,7 +22,7 @@ class TelegramView:
 	def send_config_text(self, chat_id, text:list[list], username) -> None:
 		i = 1
 		for config in text:
-			self._tgbot.send_message(chat_id, config[0], reply_markup=main_board)
+			self._tgbot.send_message(chat_id, f"```Copy\n{config[0]}```", reply_markup=main_board, parse_mode="MARKDOWN")
 			self._tgbot.send_document(chat_id, config[1], reply_markup=main_board, visible_file_name=f'{username}_{i}.conf')
 			self._tgbot.send_photo(chat_id, config[2], reply_markup=main_board)
 			i+=1

@@ -21,5 +21,5 @@ class Ip_addresses(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
 
 
-engine = create_engine('sqlite:///wireguard.db')
+engine = create_engine('sqlite:///database/wireguard.db')
 Base.metadata.create_all(engine)

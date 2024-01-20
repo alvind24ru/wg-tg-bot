@@ -1,9 +1,17 @@
+#!/bin/bash
 IP=$1
+DOM=$2
 mkdir /etc/wireguard/configs
 mkdir /etc/wireguard/configs/"$IP"
 wg genkey | tee /etc/wireguard/configs/"$IP"/"${IP}"_privatekey | wg pubkey | tee /etc/wireguard/configs/"$IP"/"${IP}"_publickey
 
-EXTERNAL_IP=$(curl ifconfig.me)
+
+if [ "$DOM" == "" ]; then
+  EXTERNAL_IP=$(curl ifconfig.me)
+else
+    EXTERNAL_IP="$DOM"
+fi
+
 PRIVATE=$(cat /etc/wireguard/configs/"$IP"/"${IP}"_privatekey)
 PUBLIC=$(cat /etc/wireguard/configs/"$IP"/"${IP}"_publickey)
 PUBLIC_SERVER=$(cat /etc/wireguard/publickey)

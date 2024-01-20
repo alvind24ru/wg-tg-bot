@@ -23,7 +23,7 @@ class WireGuard:
     @staticmethod
     def add_peer(ip: str) -> None:
         subprocess.run(
-            [f'bash /app/model/sh_scripts/add_new_peer.sh {ip}'], shell=True)
+            [f'bash /app/model/sh_scripts/add_new_peer.sh {ip} $DOMAIN'], shell=True)
 
     @staticmethod
     def restart():
