@@ -23,10 +23,10 @@ volumes:
    driver_opts:
      type: 'none'
      o: 'bind'
-     device: '~/wg-tg-bot/wireguard/'
+     device: '~/wg-tg-bot/wireguard'
  db:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '~/wg-tg-bot/database/'
+      device: '~/wg-tg-bot/database'
