@@ -1,23 +1,32 @@
 version: '3'
 services:
   tgwgbot:
+    environment:
+      - VPN_PORT=${VPN_PORT}
+      - DOMAIN=${DOMAIN}
     build:
       context: .
       dockerfile: Dockerfile
 #    network_mode: host
     ports:
-      - 51822:51822/udp
+      - ${VPN_PORT}:${VPN_PORT}/udp
     privileged: true
-#    volumes:
-#      - test:/app/
-#      - ~/wgtest/app /app/
+    volumes:
+     - db:/app/database/
+     - conf:/etc/wireguard/
     cap_add:
       - NET_ADMIN
     restart: always
-#volumes:
-#  test:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: '~/proj/wg-tg-bot'
+volumes:
+ conf:
+   driver: local
+   driver_opts:
+     type: 'none'
+     o: 'bind'
+     device: '~/wg-tg-bot/wireguard/'
+ db:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '~/wg-tg-bot/database/'

@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, create_engine, MetaData, Table
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, create_engine
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
@@ -11,8 +11,15 @@ class User(Base):
     username = Column(String(255))
     chat_id = Column(Integer, nullable=False)
     is_admin = Column(Boolean, default=False)
-    ip_address = Column(String(255))
+    ip_address = relationship('Ip_addresses')
 
 
-engine = create_engine('sqlite:///wireguard.db')
+class Ip_addresses(Base):
+    __tablename__ = 'ip_addresses'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    address = Column(String(20))
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+
+engine = create_engine('sqlite:///database/wireguard.db')
 Base.metadata.create_all(engine)

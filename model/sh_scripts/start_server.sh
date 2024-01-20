@@ -10,7 +10,7 @@ else
 Address = 10.0.0.1/24
 PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-ListenPort = 51822
+ListenPort = $VPN_PORT
 PrivateKey = $(cat /etc/wireguard/privatekey)" > /etc/wireguard/wg0.conf
 wg-quick down wg0
 wg-quick up wg0
