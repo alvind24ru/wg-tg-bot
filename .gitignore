@@ -5,3 +5,7 @@ makefile
 *__pycache__*
 .venv
 .env
+wireguard/*
+database/*
+!wireguard/.gitkeep
+!database/.gitkeep
