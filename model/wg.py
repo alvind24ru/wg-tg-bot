@@ -62,4 +62,5 @@ class WireGuard:
         db.reload_session()
 
 
+def main():
 wg = WireGuard()

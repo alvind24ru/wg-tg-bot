@@ -12,22 +12,22 @@ services:
     ports:
       - ${VPN_PORT}:${VPN_PORT}/udp
     privileged: true
-    volumes:
-     - db:/app/database/
-     - conf:/etc/wireguard/
+    # volumes:
+    #  - db:/app/database/
+    #  - conf:/etc/wireguard/
     cap_add:
       - NET_ADMIN
     restart: always
-volumes:
- conf:
-   driver: local
-   driver_opts:
-     type: 'none'
-     o: 'bind'
-     device: '/root/wg-tg-bot/wireguard'
- db:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/root/wg-tg-bot/database'
+# volumes:
+#  conf:
+#    driver: local
+#    driver_opts:
+#      type: 'none'
+#      o: 'bind'
+#      device: '/root/wg-tg-bot/wireguard'
+#  db:
+#     driver: local
+#     driver_opts:
+#       type: 'none'
+#       o: 'bind'
+#       device: '/root/wg-tg-bot/database'

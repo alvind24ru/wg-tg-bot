@@ -1,6 +1,7 @@
 from email.headerregistry import Address
 from ipaddress import ip_address, ip_interface
 import stat
+import string
 import time
 from views.message import *
 from main import bot
@@ -60,5 +61,8 @@ class TelegramView:
 		for chat_id in chats_id:
 			self._tgbot.send_message(chat_id, f'Сообщение о неработающем VPN от {from_user}')
 
+	def send_out_notices_to_administrators(self, admins_id_list: list[int], text: str):
+		for i in admins_id_list:
+			self.send_message(i, text)
 
 telegram = TelegramView(bot)

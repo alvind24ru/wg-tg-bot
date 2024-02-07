@@ -9,3 +9,4 @@ wireguard/*
 database/*
 !wireguard/.gitkeep
 !database/.gitkeep
+*.ipynb
