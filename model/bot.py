@@ -98,7 +98,8 @@ class Bot:
     def restart_wg(self):
         self._wg.restart()
 
-    def get_admin_chat_id(self) -> list:
+    def get_admin_chat_id(self) -> list[int]:
+        """Возвращает список chat_id пользователей, которые являются администраторами"""
         return self._database.get_admin_chat_id()
 
     def save_file(self, file_id, path):

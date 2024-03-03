@@ -11,6 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG C.UTF-8
 ENV VPN_PORT=${VPN_PORT}
 ENV DOMAIN=${DOMAIN}
+ENV API_TOKEN=${API_TOKEN}
 # Установка зависимостей
 RUN apt-get update -y \
     && apt-get upgrade -y \
@@ -25,5 +26,5 @@ RUN apt-get update -y \
 EXPOSE ${VPN_PORT}
 
 # Команда по умолчанию для запуска вашего приложения
-# CMD ["tail", "-f", "/dev/null"]
-CMD ["python3", "main.py"]
+CMD ["tail", "-f", "/dev/null"]
+# CMD ["python3", "/app/main.py"]

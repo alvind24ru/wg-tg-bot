@@ -22,6 +22,8 @@ def create_new_client(message):
                                     message.chat.id)
     config = models_tg_bot.get_config(message.from_user.id)
     telegram.send_config_text(message.chat.id, config, message.from_user.username)
+    admins_id_list = models_tg_bot.get_admin_chat_id()
+    telegram.send_out_notices_to_administrators(admins_id_list, f'Пользователь {message.from_user.username} создал конфиг')
 
 
 @bot.message_handler(content_types=['text'], regexp=r'^VPN не работает!$')
@@ -75,7 +77,6 @@ def backup(message):
     telegram.send_backup(message.chat.id, backup_file)
 
 
-
 @bot.message_handler(commands=['admin'])
 def admin_list_commands(message):
     models_tg_bot.user_is_admin_or_exception(message.from_user.id)
@@ -87,6 +88,8 @@ def get_an_additional_config(message):
     if models_tg_bot.user_is_created(message.from_user.id):
         models_tg_bot.create_additional_config(message.from_user.id, message.from_user.username)
         telegram.send_message(message.chat.id, 'Дополнительный конфиг создан')
+        admins_id_list = models_tg_bot.get_admin_chat_id()
+        telegram.send_out_notices_to_administrators(admins_id_list, f'Пользователь {message.from_user.username} создал дополнительный конфиг')
     else: telegram.send_message(message.chat.id, 'Сначала создайте основной конфиг')
 
 
