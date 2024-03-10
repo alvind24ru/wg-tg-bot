@@ -24,7 +24,7 @@ class TelegramView:
 		i = 1
 		for config in text:
 			self._tgbot.send_message(chat_id, f"```Copy\n{config[0]}```", reply_markup=main_board, parse_mode="MARKDOWN")
-			self._tgbot.send_document(chat_id, config[1], reply_markup=main_board, visible_file_name=f'{username}_{i}.conf')
+			self._tgbot.send_document(chat_id, config[1], reply_markup=main_board, visible_file_name=f'{username[:28]}_{i}.conf')
 			self._tgbot.send_photo(chat_id, config[2], reply_markup=main_board)
 			i+=1
 	def send_file(self, chat_id, file) -> None:

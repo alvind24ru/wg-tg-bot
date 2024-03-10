@@ -63,4 +63,4 @@ class WireGuard:
 
 
 def main():
-wg = WireGuard()
+    wg = WireGuard()

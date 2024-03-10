@@ -7,9 +7,8 @@ API = os.environ.get('API_TOKEN', "None")
 if API is None:
     print("В переменных окружения не обнаружен токен бота")
     sys.exit(1)
+
 bot = telebot.TeleBot(API)
-
-
 print('Starting...')
 
 
