@@ -23,7 +23,7 @@ def create_new_client(message):
     config = models_tg_bot.get_config(message.from_user.id)
     telegram.send_config_text(message.chat.id, config, message.from_user.username)
     admins_id_list = models_tg_bot.get_admin_chat_id()
-    telegram.send_out_notices_to_administrators(admins_id_list, f'Пользователь {message.from_user.username} создал конфиг')
+    telegram.send_out_notices_to_administrators(admins_id_list, f'Пользователь {message.from_user.username} создал / получил конфиг')
 
 
 @bot.message_handler(content_types=['text'], regexp=r'^VPN не работает!$')
@@ -92,7 +92,9 @@ def get_an_additional_config(message):
         telegram.send_out_notices_to_administrators(admins_id_list, f'Пользователь {message.from_user.username} создал дополнительный конфиг')
     else: telegram.send_message(message.chat.id, 'Сначала создайте основной конфиг')
 
-
+@bot.message_handler(content_types=['text'], regexp=r'^Гайд$')
+def guide(message):
+    telegram.send_guide(message.chat.id)
 
 @bot.message_handler(content_types=['text'])
 def echo_message(message):

@@ -26,5 +26,5 @@ RUN apt-get update -y \
 EXPOSE ${VPN_PORT}
 
 # Команда по умолчанию для запуска вашего приложения
-CMD ["tail", "-f", "/dev/null"]
-# CMD ["python3", "/app/main.py"]
+# CMD ["tail", "-f", "/dev/null"]
+CMD ["python3", "/app/main.py"]

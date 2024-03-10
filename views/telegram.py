@@ -6,6 +6,7 @@ import time
 from views.message import *
 from main import bot
 from views.boards import main_board, admin_board
+from guide.guide_text import GUIDE
 
 welcome_message = """Здесь ты можешь получить один или несколько Wireguard конфиг-файлов."""
 
@@ -64,5 +65,9 @@ class TelegramView:
 	def send_out_notices_to_administrators(self, admins_id_list: list[int], text: str):
 		for i in admins_id_list:
 			self.send_message(i, text)
+
+	def send_guide(self, chat_id):
+		self._tgbot.send_message(chat_id, GUIDE, parse_mode="MARKDOWN")
+
 
 telegram = TelegramView(bot)
