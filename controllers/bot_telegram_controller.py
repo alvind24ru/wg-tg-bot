@@ -9,12 +9,6 @@ def send_welcome(message):
     telegram.send_welcome(message.chat.id)
 
 
-@bot.message_handler(regexp=r'^Статистика$')
-def get_statistics(message):
-    stat = models_tg_bot.get_statistics(message.from_user.id)
-    telegram.send_statistics(message.chat.id, stat)
-
-
 @bot.message_handler(content_types=['text'], regexp=r'^Получить конфиг$')
 def create_new_client(message):
     if not models_tg_bot.user_is_created(message.from_user.id):

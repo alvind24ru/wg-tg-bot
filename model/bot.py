@@ -42,11 +42,6 @@ class Bot:
     def get_all_statistics(self) -> str:
         return self._wg.get_all_statistics()
 
-    def get_statistics(self, user_id: int) -> list[list]:
-        ip = self._database.get_ips_by_user_id(user_id)
-        result = [self._wg.get_statistics(i) for i in ip]
-        return result
-
     def get_config(self, user_id: int) -> list[list]:
         result = []
         ips = self._database.get_ips_by_user_id(user_id)

@@ -35,16 +35,6 @@ class TelegramView:
 		self._tgbot.send_document(chat_id, file, reply_markup=admin_board,
 							visible_file_name=f'Backup {time.ctime()}.zip')
 
-	def send_statistics(self, chat_id: int, statistics: list) -> None:
-		if len(statistics) > 0:
-			for i in statistics:
-				index = i[0].find('/32')
-				if len(i) > 2:
-					self._tgbot.send_message(chat_id, f'Статистика для адреса: {i[0][15:index]}\n'
-													f'Последнее подключение: {i[1][20:]}\n'
-													f'Трафик: {i[2][12:]}', reply_markup=main_board)
-				else: self._tgbot.send_message(chat_id, f'Статистика для адреса {i[0][15:index]} не собрана!', reply_markup=main_board)
-		else: self._tgbot.send_message(chat_id, 'Статистика не собрана!', reply_markup=main_board)
 
 	def send_admin_list_commands(self, chat_id):
 		self._tgbot.send_message(chat_id, admin_message, reply_markup=admin_board)

@@ -50,12 +50,6 @@ class WireGuard:
         return result.stdout
 
     @staticmethod
-    def get_statistics(ip: int) -> list:
-        result = subprocess.run(
-            [f'wg | grep {ip}/32 -A 2'], shell=True, stdout=subprocess.PIPE, text=True)
-        return result.stdout.split('/n')
-
-    @staticmethod
     def restore_config(file_path):
         subprocess.run(
             [f'bash /app/model/sh_scripts/restore.sh {file_path}'], shell=True)

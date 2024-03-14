@@ -8,37 +8,27 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-# for develop
 #    network_mode: host
     ports:
       - ${VPN_PORT}:${VPN_PORT}/udp
     privileged: true
     volumes:
-    #  - db:/app/database/
-    #  - conf:/etc/wireguard/
-    # for develop
-     - app:/app/
-
+     - db:/app/database/
+     - conf:/etc/wireguard/
     cap_add:
       - NET_ADMIN
     restart: always
 volumes:
-#  conf:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: '/root/wg-tg-bot/wireguard'
-#  db:
-#     driver: local
-#     driver_opts:
-#       type: 'none'
-#       o: 'bind'
-#       device: '/root/wg-tg-bot/database'
-# for develop
- app:
+ conf:
+   driver: local
+   driver_opts:
+     type: 'none'
+     o: 'bind'
+     device: '/root/wg-tg-bot/wireguard'
+ db:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/alvind/dev/wg-tg-bot/'
+      device: '/root/wg-tg-bot/database'
+
