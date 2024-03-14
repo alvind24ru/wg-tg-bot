@@ -83,7 +83,8 @@ def get_an_additional_config(message):
         models_tg_bot.create_additional_config(message.from_user.id, message.from_user.username)
         telegram.send_message(message.chat.id, 'Дополнительный конфиг создан')
         admins_id_list = models_tg_bot.get_admin_chat_id()
-        telegram.send_out_notices_to_administrators(admins_id_list, f'Пользователь {message.from_user.username} создал дополнительный конфиг')
+        telegram.send_out_notices_to_administrators(admins_id_list, f'Пользователь {message.from_user.username}\
+            создал дополнительный конфиг')
     else: telegram.send_message(message.chat.id, 'Сначала создайте основной конфиг')
 
 @bot.message_handler(content_types=['text'], regexp=r'^Гайд$')
